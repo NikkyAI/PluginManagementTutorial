@@ -2,9 +2,9 @@
 
 ## Step 0
 
-Create a new Gradle project in idea
-i recommend to enable the option `Kotlin DSL buildscript` 
-but it is not required for this tutorial
+Create a new Gradle project in idea  
+I recommend to enable the option `Kotlin DSL buildscript` 
+but it is not required for this tutorial 9as long as you can translate between groovy and kotlin a little)
 
 ## Step 1
 
@@ -124,3 +124,60 @@ gradle would look for `kotlinx-serialization:kotlinx-serialization:0.8.0-rc13`
 sidenote: since gradle 4.10.2 gradle supports `-SNAPHOT` versions on plugins
 before that the plugin would potentially not update even if a new snapshot was pushed to maven
 
+### Translating buildscript to plugin
+
+lets take as example a barebones android buildscript
+
+```kotlin
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    
+    dependencies {
+        classpath("com.android.tools.build:gradle:3.2.0")
+    }
+}
+```
+
+this can be translated into
+
+```kotlin
+plugins {
+    id("android") version "3.2.0"
+}
+```
+
+and 
+
+```kotlin
+
+pluginManagement {
+    repositories {
+        google()
+        jcenter()
+        gradlePluginPortal()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "android") {
+                useModule("com.android.tools.build:gradle:${requested.version}")
+            }
+        }
+    }
+}
+```
+
+### Using `buildSrc` for versions and more
+
+see https://docs.gradle.org/current/userguide/organizing_gradle_projects.html#sec:build_sources
+
+TL:DR
+
+you can put constants for versions in the submodule `buildSrc`
+and access those verions anywhere in your build logic, including the plugin block, and pluginManagement
+
+see [buildSrc](https://github.com/NikkyAI/PluginManagementTutorial/tree/master/buildSrc) for more details
+
+you can even make one off gradle plugins for the rest of the buildLogic without ever needing to deploy it anywhere

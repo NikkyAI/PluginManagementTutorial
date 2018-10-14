@@ -1,9 +1,10 @@
 pluginManagement {
     repositories {
+        eap() // custom repo loaded from buildSrc
         maven { url = uri("http://dl.bintray.com/kotlin/kotlin-eap") }
-        // only for pre 1.3 necessary
+        // only for pre 1.3 necessary for kotlinx.serialization
 //        maven { url = uri("https://kotlin.bintray.com/kotlinx") }
-        // mavenLocal()
+        mavenLocal()
         gradlePluginPortal()
     }
     resolutionStrategy {
