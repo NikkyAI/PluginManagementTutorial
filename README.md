@@ -81,7 +81,8 @@ repositories {
 
 ## Step 4 - Other plugins
 
-### kotlin.serialization (pre 1.3)
+### kotlin.serialization
+
 ```kotlin
 plugins {
     id("kotlinx-serialization") version "0.8.0-rc13"
@@ -91,7 +92,31 @@ plugins {
 ```kotlin
 pluginManagement {
     repositories {
-        maven { url = uri("https://kotlin.bintray.com/kotlinx") }
+        maven(url = "http://dl.bintray.com/kotlin/kotlin-eap")
+        gradlePluginPortal()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "kotlinx-serialization") {
+                useModule("org.jetbrains.kotlin:kotlin-serialization:${requested.version}")
+            }
+        }
+    }
+}
+```
+
+### kotlin.serialization (pre 1.3)
+
+```kotlin
+plugins {
+    id("kotlinx-serialization") version "0.6.2"
+}
+```
+
+```kotlin
+pluginManagement {
+    repositories {
+        maven(url = "https://kotlin.bintray.com/kotlinx")
         gradlePluginPortal()
     }
     resolutionStrategy {

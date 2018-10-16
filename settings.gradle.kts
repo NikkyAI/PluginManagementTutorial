@@ -1,9 +1,7 @@
 pluginManagement {
     repositories {
         eap() // custom repo loaded from buildSrc
-        maven { url = uri("http://dl.bintray.com/kotlin/kotlin-eap") }
-        // only for pre 1.3 necessary for kotlinx.serialization
-//        maven { url = uri("https://kotlin.bintray.com/kotlinx") }
+        maven(url = "http://dl.bintray.com/kotlin/kotlin-eap")
         mavenLocal()
         gradlePluginPortal()
     }
@@ -12,10 +10,9 @@ pluginManagement {
             if (requested.id.id == "org.jetbrains.kotlin.jvm") {
                 useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
             }
-            // only for pre 1.3
-//            if (requested.id.id == "kotlinx-serialization") {
-//                useModule("org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:${requested.version}")
-//            }
+            if (requested.id.id == "kotlinx-serialization") {
+                useModule("org.jetbrains.kotlin:kotlin-serialization:${requested.version}")
+            }
         }
     }
 }
