@@ -164,13 +164,16 @@ buildscript {
         classpath("com.android.tools.build:gradle:3.2.0")
     }
 }
+apply {
+  plugin("com.android.application")
+} 
 ```
 
 this can be translated into
 
 ```kotlin
 plugins {
-    id("android") version "3.2.0"
+    id("com.android.application") version "3.2.0"
 }
 ```
 
@@ -186,7 +189,7 @@ pluginManagement {
     }
     resolutionStrategy {
         eachPlugin {
-            if (requested.id.id == "android") {
+            if (requested.id.id == "com.android.application") {
                 useModule("com.android.tools.build:gradle:${requested.version}")
             }
         }
