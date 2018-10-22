@@ -85,7 +85,7 @@ repositories {
 
 ```kotlin
 plugins {
-    id("kotlinx-serialization") version "0.8.0-rc13"
+    id("kotlinx-serialization") version "1.3.0-rc-190" // match kotlin version
 }
 ```
 
