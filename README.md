@@ -1,5 +1,8 @@
 # Plugin Management Tutorial for Gradle and Kotlin
 
+please also read https://builds.gradle.org/repository/download/Gradle_Check_BuildDistributions/16892087:id/distributions/gradle-5.0-all.zip%21/gradle-5.0-20181022184542%2B0200/docs/userguide/kotlin_dsl.html
+it is a much better resource on how to use the kotlin-dsl and has sections how to make the most out of the plugins block
+
 ## Step 0
 
 Create a new Gradle project in idea  
@@ -55,15 +58,8 @@ add to the beginning of the file (before `rootProject.name = `)
 ```kotlin
 pluginManagement {
     repositories {
-        maven { url = uri("http://dl.bintray.com/kotlin/kotlin-eap") }
+        maven( url = "http://dl.bintray.com/kotlin/kotlin-eap")
         gradlePluginPortal()
-    }
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == "org.jetbrains.kotlin.jvm") {
-                useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:${requested.version}")
-            }
-        }
     }
 }
 ```
@@ -74,7 +70,7 @@ do not forget to also update your compile dependencies and repositories
 
 ```kotlin
 repositories {
-    maven { url = uri("http://dl.bintray.com/kotlin/kotlin-eap") }
+    maven( url = "http://dl.bintray.com/kotlin/kotlin-eap")
     mavenCentral()
 }
 ```
@@ -189,7 +185,7 @@ pluginManagement {
     }
     resolutionStrategy {
         eachPlugin {
-            if (requested.id.id == "com.android.application") {
+            if(requested.id.namespace == "com.android") {
                 useModule("com.android.tools.build:gradle:${requested.version}")
             }
         }
